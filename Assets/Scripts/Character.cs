@@ -31,6 +31,13 @@ public class Character : MonoBehaviour
     public float stamina = 1000;
     Animator animator;
 
+    float aggression = 50;
+    float matingRadius = 3;
+    float matingThreshold = 50;
+    float offspringContribution = 40;
+    float matingCooldown = 5;
+    float matingTimer = 0;
+    
     Rigidbody body;
     IEnumerator CalculateActionRoutine()
     {
@@ -53,15 +60,28 @@ public class Character : MonoBehaviour
     {
         Transform mainTarget = null;
         float leastDistance = float.MaxValue;
+
+        bool wantsToMate = WantsToMate();
+
         foreach (Transform target in visibleTargets) 
         {
             float targetDistance = Vector3.Distance(target.transform.position, transform.position);
             if (type == "Herbivore")
             {
-                Fruit script = target.gameObject.GetComponent<Fruit>();
-                if (script && leastDistance > targetDistance)
+                if (wantsToMate)
                 {
-                    mainTarget = target;
+                    Character script = target.gameObject.GetComponent<Character>();
+                    if (script && leastDistance > targetDistance && script.WantsToMate(this))
+                    {
+                        mainTarget = target;
+                    }
+                } else
+                {
+                    Fruit script = target.gameObject.GetComponent<Fruit>();
+                    if (script && leastDistance > targetDistance)
+                    {
+                        mainTarget = target;
+                    }
                 }
             }
             else
@@ -86,10 +106,11 @@ public class Character : MonoBehaviour
         {
             seenTarget = true;
             lastTargetPosition = new Vector3(mainTarget.position.x, 0, mainTarget.position.z);
-            Fruit script = mainTarget.gameObject.GetComponent<Fruit>();
+            
             if (type == "Herbivore")
             {
-                if (script)
+                Fruit script = mainTarget.gameObject.GetComponent<Fruit>();
+                if (script || wantsToMate)
                 {
                     desiredDistance = 0;
                 } else
@@ -99,10 +120,7 @@ public class Character : MonoBehaviour
             }
             else
             {
-                if (!script)
-                {
-                    desiredDistance = 0;
-                }
+                desiredDistance = 0;
             }
         } else if (Random.Range(0, 10) < changeChance)
         {
@@ -184,6 +202,39 @@ public class Character : MonoBehaviour
         return null;
     }
 
+    Character GetMatingTarget()
+    {
+        if (!WantsToMate())
+        {
+            return null;
+        }
+
+        Collider[] targetsInMatingRadius = Physics.OverlapSphere(transform.position, matingRadius, targetMask);
+        foreach (Collider targetCollider in targetsInMatingRadius)
+        {
+            Transform target = targetCollider.transform;
+            // No masturbating
+            if (target.transform.root == transform || (target.parent && target.parent.transform.root == transform))
+            {
+                continue;
+            }
+
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+            if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstacleMask))
+            {
+                Character ts = target.gameObject.GetComponent<Character>();
+                if (ts && ts.WantsToMate(this))
+                {
+                    return ts;
+                }
+            }
+        }
+
+        return null;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -238,11 +289,16 @@ public class Character : MonoBehaviour
 
         float distanceToTarget = Vector3.Distance(transform.position, lastTargetPosition);
         float angle = Vector3.Angle(transform.forward, targetDirection);
+        float moveAmount = 0;
         if (angle < 70 && distanceToTarget > attackRadius && !resting && stamina > 0)
         {
-            body.MovePosition(transform.position + transform.forward * Time.deltaTime * speed);
+            moveAmount = speed;
+
+            body.MovePosition(transform.position + transform.forward * moveAmount * Time.deltaTime);
             stamina -= speed * Time.deltaTime;
         }
+
+        health -= (1 + moveAmount) * Time.deltaTime * 0.001f;
 
         if (resting)
         {
@@ -292,7 +348,13 @@ public class Character : MonoBehaviour
                 animator.SetTrigger("Attack");
             }
         }
-        
+
+        matingTimer -= Time.deltaTime;
+        Character matingTarget = GetMatingTarget();
+        if (matingTarget)
+        {
+            Mate(matingTarget);
+        }
 
         if (health <= 0)
         {
@@ -308,5 +370,34 @@ public class Character : MonoBehaviour
         }
 
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+    }
+
+    public void Mate(Character target)
+    {
+        MatingSpawner spawner = GetComponent<MatingSpawner>();
+
+        if (spawner)
+        {
+            health -= offspringContribution;
+            target.health = target.offspringContribution;
+
+            Character baby = spawner.SpawnObject(this, target);
+            baby.health = offspringContribution + target.offspringContribution;
+            matingTimer = matingCooldown;
+            target.matingTimer = target.matingCooldown;
+
+            print("spawned");
+            print(baby);
+        }
+    }
+
+    public bool WantsToMate()
+    {
+        return health > matingThreshold && matingTimer < 0;
+    }
+
+    public bool WantsToMate(Character target)
+    {
+        return type == target.type && WantsToMate();
     }
 }

@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 8695227149967989795}
   - component: {fileID: 8695227149967989794}
   - component: {fileID: 8923978483006378462}
+  - component: {fileID: 5437910513874656862}
   m_Layer: 6
   m_Name: Mihkel
   m_TagString: target
@@ -401,6 +402,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5437910513874656862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8695227149967989793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a05558d46cbaf4e9275f0742b51b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToSpawn: {fileID: 8695227149967989793}
 --- !u!1 &8695227150565993259
 GameObject:
   m_ObjectHideFlags: 0
