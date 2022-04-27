@@ -38,7 +38,7 @@ public class Menu : MonoBehaviour
 
     public void ResumeGame()
     {
-        Time.timeScale = speed;
+        SetOpen(false);
     }
 
     public void SetOpen(bool open)
