@@ -11,6 +11,8 @@ public class CreatureOverlay : MonoBehaviour
     {
         int herbivores = 0;
         int predators = 0;
+        float speed = 0;
+        float health = 0;
         Character[] characters = FindObjectsOfType<Character>();
         foreach (Character character in characters)
         {
@@ -21,9 +23,11 @@ public class CreatureOverlay : MonoBehaviour
             {
                 predators++;
             }
+            speed += character.speed;
+            health += character.health;
         }
 
-        textContainer.SetText("Herbivores: {0}, Predators: {1}", herbivores, predators);
+        textContainer.SetText("Herbivores: {0}, Predators: {1}, Average speed: {2:2}, Average health: {3:0}", herbivores, predators, speed / (herbivores + predators), health / (herbivores + predators));
     }
 
     // Start is called before the first frame update

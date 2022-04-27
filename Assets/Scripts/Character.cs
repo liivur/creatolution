@@ -26,7 +26,7 @@ public class Character : MonoBehaviour
     bool seenTarget = false;
     public bool resting = false;
     float attackTimer = 0;
-    float health = 100;
+    public float health = 100;
     public float restTimer = 0;
     public float stamina = 1000;
     Animator animator;
@@ -298,7 +298,7 @@ public class Character : MonoBehaviour
             stamina -= speed * Time.deltaTime;
         }
 
-        health -= (1 + moveAmount) * Time.deltaTime * 0.001f;
+        health -= (1 + moveAmount) * Time.deltaTime * 0.01f;
 
         if (resting)
         {
@@ -385,9 +385,6 @@ public class Character : MonoBehaviour
             baby.health = offspringContribution + target.offspringContribution;
             matingTimer = matingCooldown;
             target.matingTimer = target.matingCooldown;
-
-            print("spawned");
-            print(baby);
         }
     }
 
