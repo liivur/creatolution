@@ -24,6 +24,18 @@ public class MatingSpawner : MonoBehaviour
         script.changeChance = changeChance + Random.Range(changeChance * -0.1f, changeChance * 0.1f);
         float staminaRegen = Random.Range(parentA.staminaRegen, parentB.staminaRegen);
         script.staminaRegen = staminaRegen + Random.Range(staminaRegen * -0.1f, staminaRegen * 0.1f);
+        float maxHealth = Random.Range(parentA.health.max, parentB.health.max);
+        script.staminaRegen = maxHealth + Random.Range(maxHealth * -0.1f, maxHealth * 0.1f);
+        float aggression = Random.Range(parentA.aggression, parentB.aggression);
+        script.aggression = aggression + Random.Range(aggression * -0.1f, aggression * 0.1f);
+        float persistence = Random.Range(parentA.persistence, parentB.persistence);
+        script.persistence = persistence + Random.Range(persistence * -0.1f, persistence * 0.1f);
+        float matingCallFrequency = Random.Range(parentA.matingCallFrequency, parentB.matingCallFrequency);
+        script.matingCallFrequency = matingCallFrequency + Random.Range(matingCallFrequency * -0.1f, matingCallFrequency * 0.1f);
+        float offspringContribution = Random.Range(parentA.offspringContribution, parentB.offspringContribution);
+        script.offspringContribution = offspringContribution + Random.Range(offspringContribution * -0.1f, offspringContribution * 0.1f);
+        float matingCallRadius = Random.Range(parentA.matingCallRadius, parentB.matingCallRadius);
+        script.matingCallRadius = matingCallRadius + Random.Range(matingCallRadius * -0.1f, matingCallRadius * 0.1f);
 
         return script;
     }

@@ -33,14 +33,16 @@ public class Spawner : MonoBehaviour
         script.changeRange = Random.Range(30, 80);
         script.changeChance = Random.Range(0.2f, 0.8f);
         script.staminaRegen = Random.Range(2f, 8f);
+        script.aggression = Random.Range(0.3f, 3f);
+        script.persistence = Random.Range(1, 5);
+        script.matingCallFrequency = Random.Range(15, 40);
+        script.offspringContribution = Random.Range(10, 60);
+        script.matingCallRadius = Random.Range(100, 600);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        print(world.transform.position);
-        print(world.GetComponent<Renderer>().bounds.size);
-
         StartCoroutine("SpawnObjectRoutine");
     }
 

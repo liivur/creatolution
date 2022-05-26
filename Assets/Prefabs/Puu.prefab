@@ -209,3 +209,8 @@ MonoBehaviour:
   minFruitingSize: 15
   maxSize: 30
   fruitPrefab: {fileID: 8670454831144287587, guid: 662966e11d206ec49a6ac012bee96068, type: 3}
+  plantPrefab: {fileID: 6710187606356366873}
+  floatingTextPrefab: {fileID: 4910246903573967044, guid: 57b8cabbaeee6de4eb852a0ab829c571, type: 3}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128

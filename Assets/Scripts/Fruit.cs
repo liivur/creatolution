@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class Fruit : MonoBehaviour
 {
-    public float health = 100;
+    [HideInInspector]
+    public Health health;
+    [HideInInspector]
+    public Plant parent;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        health = gameObject.GetComponent<Health>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (health <= 0)
+        if (health.current <= 0)
         {
             Destroy(gameObject);
         }

@@ -246,6 +246,8 @@ GameObject:
   - component: {fileID: 8695227149967989794}
   - component: {fileID: 8923978483006378462}
   - component: {fileID: 5437910513874656862}
+  - component: {fileID: 5208250945112644234}
+  - component: {fileID: 7048189711358752968}
   m_Layer: 6
   m_Name: Mihkel
   m_TagString: target
@@ -347,7 +349,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &8695227149967989794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,28 +363,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identifier: Mihkel
-  aiDelay: 0.2
-  changeChance: 0.75
-  changeRange: 30
-  speed: 5
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 64
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 128
-  viewRadius: 14.94
-  viewAngle: 91.22
-  type: Carnivore
-  staminaRegen: 3
+  speed: 8
+  type: 0
+  staminaRegen: 45
   attackCooldown: 2
-  attackRadius: 2
+  attackRadius: 4
   attackDamage: 20
-  visibleTargets: []
-  lastTargetPosition: {x: 0, y: 0, z: 0}
+  changeChance: 0.25
+  changeRange: 180
+  viewAngle: 120
+  viewRadius: 70
+  matingCallCooldown: 15
+  matingCallFrequency: 30
+  matingCallRadius: 100
+  restDuration: 10
   resting: 0
+  floatingTextPrefab: {fileID: 4910246903573967044, guid: 57b8cabbaeee6de4eb852a0ab829c571, type: 3}
   restTimer: 0
   stamina: 1000
+  offspringContribution: 40
+  matingRadius: 3
+  ai: {fileID: 0}
+  aggression: 1
+  fleeDuration: 3
+  health: {fileID: 0}
+  persistence: 2
 --- !u!95 &8923978483006378462
 Animator:
   serializedVersion: 3
@@ -415,6 +420,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 8695227149967989793}
+--- !u!114 &5208250945112644234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8695227149967989793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cb70911a48fd2c45b954832b90c26f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiDelay: 0.2
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  character: {fileID: 0}
+  lastTargetPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &7048189711358752968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8695227149967989793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a543c467467d5674b841c7feb55d3032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  current: 0
+  max: 300
 --- !u!1 &8695227150565993259
 GameObject:
   m_ObjectHideFlags: 0

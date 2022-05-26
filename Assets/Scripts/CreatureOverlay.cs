@@ -16,7 +16,7 @@ public class CreatureOverlay : MonoBehaviour
         Character[] characters = FindObjectsOfType<Character>();
         foreach (Character character in characters)
         {
-            if (character.type == "Herbivore")
+            if (character.type == Character.FoodType.Herbivore)
             {
                 herbivores++;
             } else
@@ -24,10 +24,11 @@ public class CreatureOverlay : MonoBehaviour
                 predators++;
             }
             speed += character.speed;
-            health += character.health;
+            health += character.health.current;
         }
 
-        textContainer.SetText("Herbivores: {0}, Predators: {1}, Average speed: {2:2}, Average health: {3:0}", herbivores, predators, speed / (herbivores + predators), health / (herbivores + predators));
+        int sum = System.Math.Max(1, herbivores + predators);
+        textContainer.SetText("Herbivores: {0}, Predators: {1}, Average speed: {2:2}, Average health: {3:0}", herbivores, predators, speed / sum, health / sum);
     }
 
     // Start is called before the first frame update
